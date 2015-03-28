@@ -332,16 +332,16 @@ void effect_pick(void) {
   if (effect_count == 0) {
     effect_rain(10 * DELAY_MULTIPLIER);
   } else if (effect_count == 1) { 
-    effect_capacitor(2 * DELAY_MULTIPLIER);
+    effect_capacitor(10 * DELAY_MULTIPLIER);
   } else if (effect_count == 2) { 
     for (i=0;i<8 && effect_count == 2;i++){
-      effect_box_shrink_grow (1, i%4, i & 0x04, 5 * DELAY_MULTIPLIER);
+      effect_box_shrink_grow (1, i%4, i & 0x04, 10 * DELAY_MULTIPLIER);
     }
   } else if (effect_count == 3) {
-    effect_box_center(5 * DELAY_MULTIPLIER,0);
-    effect_box_center(5 * DELAY_MULTIPLIER,1);
-    effect_box_center(5 * DELAY_MULTIPLIER,0);
-    effect_box_center(5 * DELAY_MULTIPLIER,1);
+    effect_box_center(10 * DELAY_MULTIPLIER,0);
+    effect_box_center(10 * DELAY_MULTIPLIER,1);
+    effect_box_center(10 * DELAY_MULTIPLIER,0);
+    effect_box_center(10 * DELAY_MULTIPLIER,1);
   } else if (effect_count == 4) {
     effect_path_text (12 * DELAY_MULTIPLIER, "MERRY XMAS");
   } else if (effect_count == 5) {
@@ -374,12 +374,12 @@ void effect_pick(void) {
 
 
 // NEWLY ADDED
-void setDelayConstant()
+void setDelayConstant(void)
 {
 
   ATDCTL5 = 0x00;
 
-  DELAY_MULTIPLIER = ATDDR0H / 5;
+  DELAY_MULTIPLIER = ATDDR1H / 5;
 
   if (DELAY_MULTIPLIER < 3)
   {
