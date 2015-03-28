@@ -12,7 +12,7 @@
 
 /* Functions Declarations */
 void shiftout(char);
-void setDelayConstant();
+void setDelayConstant(void);
 
 /* Variables Declarations */
 // Clocking signals
@@ -339,9 +339,9 @@ void effect_pick(void) {
     }
   } else if (effect_count == 3) {
     effect_box_center(5 * DELAY_MULTIPLIER,0);
-    effect_box_center(5 * DELAY_MULTIPLIE0,1);
-    effect_box_center(5 * DELAY_MULTIPLIE0,0);
-    effect_box_center(5 * DELAY_MULTIPLIE0,1);
+    effect_box_center(5 * DELAY_MULTIPLIER,1);
+    effect_box_center(5 * DELAY_MULTIPLIER,0);
+    effect_box_center(5 * DELAY_MULTIPLIER,1);
   } else if (effect_count == 4) {
     effect_path_text (12 * DELAY_MULTIPLIER, "MERRY XMAS");
   } else if (effect_count == 5) {
