@@ -3,6 +3,7 @@
 // Fill the cube with a given pattern.
 // fill(0x00); clears the cube
 // fill(0xff); lights all leds
+
 void fill (unsigned char pattern)
 {
   int z, y;
@@ -40,20 +41,20 @@ void turnOff(int x, int y, int z) {
 // Get the state of an LED
 unsigned char getState(int x, int y, int z)
 {
-	if (inBound(x,y,z)) { 
-	  return (cube[z][y]>>x) & 0x01;
-	}
-	return 0; 
+  if (inBound(x,y,z)) { 
+    return (cube[z][y]>>x) & 0x01;
+  }
+  return 0; 
 }
 
 // Set LED to given state
 void alterState(int x, int y, int z, int state)
 {
-	if (state == 1) {
-		turnOn(x,y,z);
-	} else {
-		turnOff(x,y,z);
-	}
+  if (state == 1) {
+    turnOn(x,y,z);
+  } else {
+    turnOff(x,y,z);
+  }
 }
 
 // Check if given coordinates are in bound
@@ -85,9 +86,9 @@ void clear_planeZ(int z) {
 void draw_planeY(int y) {
   int z;
   if (y < 8 && y >= 0) {
-   for (z = 0; z < 8; z ++) {
-    cube[z][y] = 0xFF;
-   }
+    for (z = 0; z < 8; z ++) {
+      cube[z][y] = 0xFF;
+    }
   }
 }
 
@@ -148,11 +149,11 @@ void reorder(int * x1, int * x2) {
 
 void draw_filledBox(int x1, int x2, int y1, int y2, int z1, int z2) {
   int x,y,z;      
-  
+
   reorder(&x1,&x2);
   reorder(&y1,&y2);
   reorder(&z1,&z2);
-  
+
   x = make_lineX(x1,x2);
 
   if (inBound(x1,y1,z1) && inBound(x2,y2,z2)) {
@@ -166,11 +167,11 @@ void draw_filledBox(int x1, int x2, int y1, int y2, int z1, int z2) {
 
 void draw_emptyBox(int x1, int x2, int y1, int y2, int z1, int z2) {
   int x,y,z;
-  
+
   reorder(&x1,&x2);
   reorder(&y1,&y2);
   reorder(&z1,&z2);
-  
+
   x = make_lineX(x1, x2);
 
 
@@ -189,11 +190,11 @@ void draw_emptyBox(int x1, int x2, int y1, int y2, int z1, int z2) {
 
 void draw_lineBox(int x1, int x2, int y1, int y2, int z1, int z2) {
   int x,y,z;
-  
+
   reorder(&x1,&x2);
   reorder(&y1,&y2);
   reorder(&z1,&z2);
-  
+
   x = make_lineX(x1,x2);
 
   if (inBound(x1,y1,z1) && inBound(x2,y2,z2)) {
@@ -237,7 +238,7 @@ void mirror_x (void) {
   memcpy(buffer, cube, 64); // copy the current cube into a buffer.
 
   fill(0x00);
-    
+
   for (z=0; z<8; z++) {
     for (y=0; y<8; y++){
       // This will break with different buffer sizes..
@@ -261,16 +262,16 @@ void mirror_z (void) {
 }
 
 char flipbyte (char b) {
-	char flop = 0x00;
-	flop = (flop & 0b11111110) | (0b00000001 & (b >> 7));
-	flop = (flop & 0b11111101) | (0b00000010 & (b >> 5));
-	flop = (flop & 0b11111011) | (0b00000100 & (b >> 3));
-	flop = (flop & 0b11110111) | (0b00001000 & (b >> 1));
-	flop = (flop & 0b11101111) | (0b00010000 & (b << 1));
-	flop = (flop & 0b11011111) | (0b00100000 & (b << 3));
-	flop = (flop & 0b10111111) | (0b01000000 & (b << 5));
-	flop = (flop & 0b01111111) | (0b10000000 & (b << 7));
-	return flop;
+  char flop = 0x00;
+  flop = (flop & 0b11111110) | (0b00000001 & (b >> 7));
+  flop = (flop & 0b11111101) | (0b00000010 & (b >> 5));
+  flop = (flop & 0b11111011) | (0b00000100 & (b >> 3));
+  flop = (flop & 0b11110111) | (0b00001000 & (b >> 1));
+  flop = (flop & 0b11101111) | (0b00010000 & (b << 1));
+  flop = (flop & 0b11011111) | (0b00100000 & (b << 3));
+  flop = (flop & 0b10111111) | (0b01000000 & (b << 5));
+  flop = (flop & 0b01111111) | (0b10000000 & (b << 7));
+  return flop;
 }
 
 void shiftCubeNoWrapAround(char axis, int units)
@@ -279,7 +280,7 @@ void shiftCubeNoWrapAround(char axis, int units)
   unsigned char shift_temp[8];
   int shift_layer;
   int shift_row;
-  
+
   if (axis == 'x')
   {
     if(units == 1)
@@ -378,13 +379,13 @@ void shiftCubeNoWrapAround(char axis, int units)
         memcpy(cube[shift_index],cube[(shift_index+units)%8],8);
         shift_index++;
       }
-      
+
       memcpy(cube[7],blank,8);
     }
   }
 }
 
- 
+
 void moveX(int x, int y, int z, int units)
 {
   int newx = x + units;
@@ -449,6 +450,3 @@ void carve_mask(int x)
 
   }
 }
-
-
-

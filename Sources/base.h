@@ -37,7 +37,6 @@ void moveZ(int x, int y, int z, int units);
 void carve_mask(int x);
 void fill_mask(void);
 
-
 void shiftCubeNoWrapAround(char axis, int units);
 
 #endif

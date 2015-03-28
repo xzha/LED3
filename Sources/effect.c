@@ -15,7 +15,9 @@ void effect_startup_animation(void) {
       }
     }
   }
+
   delay_ms(400);
+
   for(z=0;z<8;z++) {
     for(y=0;y<8;y++) {
       for(x=0;x<8;x++) {
@@ -24,6 +26,7 @@ void effect_startup_animation(void) {
       }
     }
   }
+
   delay_ms(500);
 
   for(k=0;k<3;k++) {
@@ -33,6 +36,7 @@ void effect_startup_animation(void) {
     delay_ms(200);
   }
 }
+
 
 //EFFECT: LEAVE TRAIL OF LEDS BEHIND
 void effect_holupp(char axis, int direction, int delay)
@@ -54,12 +58,14 @@ void effect_holupp(char axis, int direction, int delay)
     if (direction == 1) {
       draw_planeY(0);
     } else if (direction == -1) {
-      draw_planeY(7);    }
+      draw_planeY(7);
+    }
   } else if (axis == 'z') {
     if (direction == 1) {
       draw_planeZ(0);
     } else if (direction == -1) {
-      draw_planeZ(7);    }
+      draw_planeZ(7);
+    }
   }
   delay_ms(delay);
   fill_mask();
@@ -314,6 +320,7 @@ void effect_box_shrink_grow (int iterations, int rot, int flip, int delay) {
 	}
 }
 
+
 //EFFECT: GROW SHRINK CUBE FROM CENTER OF CUBE
 void effect_box_center (int delay, int grow) {
 	int k,kk;
@@ -348,6 +355,7 @@ void effect_pathmove (unsigned char *path, int length) {
 		turnOff(((path[0]>>4) & 0x0f), (path[0] & 0x0f),k);
 	}
 }
+
 
 //EFFECT: SCROLLING TEXT
 void effect_path_text (int delay, char *str) {
@@ -390,5 +398,3 @@ void effect_path_text (int delay, char *str) {
 		delay_ms(delay);
 	}
 }
-
-
