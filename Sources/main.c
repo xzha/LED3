@@ -16,9 +16,9 @@ void setDelayConstant(void);
 /* Variables Declarations */
 // Clocking signals
 int tencnt = 0;
-int onecnt = 0;    
+int onecnt = 0;
 
-// Counters 
+// Counters
 int i = 0;
 int j = 0;
 
@@ -41,11 +41,11 @@ unsigned char layer = 0x00;
 unsigned char cur_layer = 0;
 
 
-// Push buttons              
+// Push buttons
 char leftpb = 0;  // left pushbutton flag
 char rghtpb = 0;  // right pushbutton flag
 char prevpb = 0;  // previous pushbutton state
-char runstp = 0;  // run/stop flag         
+char runstp = 0;  // run/stop flag
 
 // Delay Multiplier
 int DELAY_MULTIPLIER = 0;
@@ -167,7 +167,6 @@ void main(void)
     effect_pick();
 
   }/* loop forever */
-
 }/* do not leave main */
 
 
@@ -204,6 +203,7 @@ interrupt 7 void RTI_ISR(void)
     prevpb = PORTAD0_PTAD6 && PORTAD0_PTAD7;
   }
 
+  // If effects are on, use the potentiometer to determine variable delay
   if(effect_count >= 0)
   {
     setDelayConstant();
@@ -256,13 +256,13 @@ interrupt 15 void TIM_ISR(void)
   // paint by layer, shift out right rect, left rect, then layer (opposite of gal set up)
   shiftout(line8);
   shiftout(line7);
-  shiftout(line6); 
-  shiftout(line5);  
+  shiftout(line6);
+  shiftout(line5);
   shiftout(line4);
-  shiftout(line3); 
+  shiftout(line3);
   shiftout(line2);
-  shiftout(line1);   
-  shiftout(layer);     
+  shiftout(line1);
+  shiftout(layer);
 
   PTT_PTT4 = 1;
   PTT_PTT4 = 0;
@@ -272,7 +272,7 @@ interrupt 15 void TIM_ISR(void)
   {
     cur_layer = 0; // reset to bottom layer
   } 
-}      
+}
 
 
 /*
@@ -412,7 +412,7 @@ void setDelayConstant(void)
 
   DELAY_MULTIPLIER = ATDDR1H / 5;
 
-  if (DELAY_MULTIPLIER < 3)
+  if(DELAY_MULTIPLIER < 3)
   {
     DELAY_MULTIPLIER = 3;
   }

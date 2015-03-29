@@ -56,35 +56,35 @@ void effect_holupp(char axis, int direction, int delay)
   int fakek = 0;
   fill(0x00);
   
-  if (axis == 'x')
+  if(axis == 'x')
   {
-    if (direction == 1)
+    if(direction == 1)
     {
       draw_planeX(0);
     }
-    else if (direction == -1)
+    else if(direction == -1)
     {
       draw_planeX(7);
     }
   }
-  else if (axis == 'y')
+  else if(axis == 'y')
   {
-    if (direction == 1)
+    if(direction == 1)
     {
       draw_planeY(0);
     }
-    else if (direction == -1)
+    else if(direction == -1)
     {
       draw_planeY(7);
     }
   }
-  else if (axis == 'z')
+  else if(axis == 'z')
   {
-    if (direction == 1)
+    if(direction == 1)
     {
       draw_planeZ(0);
     }
-    else if (direction == -1)
+    else if(direction == -1)
     {
       draw_planeZ(7);
     }
@@ -132,15 +132,15 @@ void effect_holupp(char axis, int direction, int delay)
 
   delay_ms(delay);
   
-  if (axis == 'x')
+  if(axis == 'x')
   {
     effect_sweepX(direction, delay/25); 
   }
-  else if (axis == 'z')
+  else if(axis == 'z')
   {
     effect_sweepZ(direction, delay/25);
   }
-  else if (axis == 'y')
+  else if(axis == 'y')
   {
     effect_sweepY(direction, delay/25);
   }
@@ -240,7 +240,7 @@ void effect_sweepX(int direction, int delay)
       delay_ms(delay);
     }
   }
-  else if (direction == -1)
+  else if(direction == -1)
   {
     for(sweepk = 7; sweepk > 0; sweepk--)
     {
@@ -286,7 +286,7 @@ void effect_sweepY(int direction, int delay)
       delay_ms(delay);
     }
   }
-  else if (direction == -1)
+  else if(direction == -1)
   {
     for(sweepk = 7; sweepk > 0; sweepk--)
     {
@@ -332,7 +332,7 @@ void effect_sweepZ(int direction, int delay)
       delay_ms(delay);
     }
   }
-  else if (direction == -1)
+  else if(direction == -1)
   {
     for(sweepk = 7; sweepk > 0; sweepk--)
     {
@@ -375,16 +375,17 @@ void effect_rain(int delay)
 
 
 //EFFECT: GROW SHRINK CUBE FROM CORNER
-void effect_box_shrink_grow (int iterations, int rot, int flip, int delay)
+void effect_box_shrink_grow(int iterations, int rot, int flip, int delay)
 {
 	int x, k, xyz;
-	for (x = 0; x < iterations && effect_count == 2; x++)
+
+	for(x = 0; x < iterations && effect_count == 2; x++)
   {
-	  for (k = 0; k < 16 && effect_count == 2; k++)
+	  for(k = 0; k < 16 && effect_count == 2; k++)
     {
 	    xyz = 7-k; // This reverses counter i between 0 and 7.
 
-	    if (k > 7)
+	    if(k > 7)
       {
 	      xyz = k-8; // at i > 7, i 8-15 becomes xyz 0-7.
 	    }
@@ -395,17 +396,17 @@ void effect_box_shrink_grow (int iterations, int rot, int flip, int delay)
 
       draw_lineBox(0, xyz, 0, xyz, 0, xyz);
 
-      if (flip > 0)
+      if(flip > 0)
       {
         mirror_z();
 		  }
 
-		  if (rot == 1 || rot == 3)
+		  if(rot == 1 || rot == 3)
       {
 		    mirror_y();
       }
 
-      if (rot == 2 || rot == 3) 
+      if(rot == 2 || rot == 3) 
       {
         mirror_x();
       }
@@ -425,16 +426,16 @@ void effect_box_center (int delay, int grow)
 
 	fill(0x00);
 
-	for (k = 0; k < 4 && effect_count == 3; k++)
+	for(k = 0; k < 4 && effect_count == 3; k++)
   {
 	  kk = k;
 
-	  if (grow > 0)
+	  if(grow > 0)
     {
-	    kk = 3-k;
+	    kk = 3 - k;
     }
 
-		draw_lineBox(4+kk, 3-kk, 4+kk, 3-kk, 4+kk, 3-kk);
+		draw_lineBox(4 + kk, 3 - kk, 4 + kk, 3 - kk, 4 + kk, 3 - kk);
 		delay_ms(delay);
 		fill(0x00);
 	}
@@ -446,18 +447,18 @@ void effect_pathmove (unsigned char *path, int length)
 	int k, z;
 	unsigned char state;
 	
-	for(k = (length-1); k >= 1; k--)
+	for(k = (length - 1); k >= 1; k--)
 	{
-		for (z = 0; z < 8; z++)
+		for(z = 0; z < 8; z++)
 		{
-			state = getState(((path[(k-1)]>>4) & 0x0f), (path[(k-1)] & 0x0f), z);
-			alterState(((path[k]>>4) & 0x0f), (path[k] & 0x0f), z, state);
+			state = getState(((path[(k - 1)] >> 4) & 0x0f), (path[(k - 1)] & 0x0f), z);
+			alterState(((path[k] >> 4) & 0x0f), (path[k] & 0x0f), z, state);
 		}
 	}
 
 	for(k = 0; k < 8; k++)
   {
-		turnOff(((path[0]>>4) & 0x0f), (path[0] & 0x0f),k);
+		turnOff(((path[0] >> 4) & 0x0f), (path[0] & 0x0f),k);
 	}
 }
 
@@ -481,9 +482,9 @@ void effect_path_text (int delay, char *str)
 		{
 			stripe = chr[ii];
 			
-			for (z = 0; z < 8 && effect_count == 4; z++)
+			for(z = 0; z < 8 && effect_count == 4; z++)
 			{
-				if ((stripe>>(7-z)) & 0x01)
+				if((stripe>>(7 - z)) & 0x01)
 				{
 					turnOn(0, 7, z);
 				}
