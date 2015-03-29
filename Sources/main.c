@@ -408,7 +408,7 @@ void effect_pick(void)
 // DELAY_MULTIPLIER is determined from ATDDR1H (Pin 6 on the Microcontroller)
 void setDelayConstant(void)
 {
-  ATDCTL5 = 0x00;
+  ATDCTL5 = 0x10;
 
   DELAY_MULTIPLIER = ATDDR1H / 5;
 
