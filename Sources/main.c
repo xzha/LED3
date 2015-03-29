@@ -1,4 +1,3 @@
-/* */
 #include <hidef.h>      /* common defines and macros */
 #include "derivative.h"      /* derivative-specific definitions */
 #include <mc9s12c32.h>
@@ -48,7 +47,6 @@ char rghtpb = 0;  // right pushbutton flag
 char prevpb = 0;  // previous pushbutton state
 char runstp = 0;  // run/stop flag         
 
-// NEWLY ADDED
 // Delay Multiplier
 int DELAY_MULTIPLIER = 0;
 
@@ -58,18 +56,19 @@ int DELAY_MULTIPLIER = 0;
  ***********************************************************************
  */
 
-void  initializations(void) {
-
+void initializations(void)
+{
   /* Set the PLL speed (bus clock = 24 MHz) */
   CLKSEL = CLKSEL & 0x80; //; disengage PLL from system
   PLLCTL = PLLCTL | 0x40; //; turn on PLL
   SYNR = 0x02;            //; set PLL multiplier
   REFDV = 0;              //; set PLL divider
-  while (!(CRGFLG & 0x08)){  }
+
+  while(!(CRGFLG & 0x08));
   CLKSEL = CLKSEL | 0x80; //; engage PLL
 
   /* Disable watchdog timer (COPCTL register) */
-  COPCTL = 0x40   ; //COP off; RTI and COP stopped in BDM-mode
+  COPCTL = 0x40; //COP off; RTI and COP stopped in BDM-mode
 
   /* Initialize asynchronous serial port (SCI) for 9600 baud, interrupts off initially */
   SCIBDH =  0x00; //set baud rate to 9600
@@ -137,12 +136,14 @@ void  initializations(void) {
   effect_count = -1;
 }
 
+
 /*                        
  ***********************************************************************
  Main
  ***********************************************************************
  */
-void main(void) {
+void main(void)
+{
   DisableInterrupts;
   initializations();                      
   EnableInterrupts;
@@ -152,12 +153,14 @@ void main(void) {
   {
     /* < start of your main loop > */ 
 
-    if (leftpb) {
+    if(leftpb)
+    {
       leftpb=0;
     }
 
 
-    if (rghtpb) {
+    if(rghtpb)
+    {
       rghtpb = 0;
     }
 
@@ -165,9 +168,7 @@ void main(void) {
 
   }/* loop forever */
 
-}   /* do not leave main */
-
-
+}/* do not leave main */
 
 
 /*
@@ -181,7 +182,8 @@ interrupt 7 void RTI_ISR(void)
   // clear RTI interrupt flag
   CRGFLG = CRGFLG | 0x80;    
 
-  if(prevpb && !PORTAD0_PTAD6){
+  if(prevpb && !PORTAD0_PTAD6)
+  {
     prevpb = 0;
     rghtpb = 1;
 
@@ -189,21 +191,25 @@ interrupt 7 void RTI_ISR(void)
     effect_count %= EFFECT_NUM;
     fill(0x00);
 
-  } else if(prevpb && !PORTAD0_PTAD7) {
+  }
+  else if(prevpb && !PORTAD0_PTAD7)
+  {
     prevpb = 0;
     leftpb = 1;
 
     effect_count = -1;
-  } else {
+  }
+  else
+  {
     prevpb = PORTAD0_PTAD6 && PORTAD0_PTAD7;
   }
 
-  // NEWLY ADDED
   if(effect_count >= 0)
   {
     setDelayConstant();
   }
 }
+
 
 /*
  ***********************************************************************                       
@@ -218,16 +224,21 @@ interrupt 15 void TIM_ISR(void)
 
   // Set up one sec
   tencnt++;
-  if(tencnt == 100) {
+
+  if(tencnt == 100)
+  {
     tencnt = 0;
     onecnt++;
-    if(onecnt == 10) {
+
+    if(onecnt == 10)
+    {
       onecnt = 0; 
       PTT_PTT1 = 1 - PTT_PTT1;
     }
   }
 
-  if (delay_count != -1) {
+  if(delay_count != -1)
+  {
     delay_count++;
   }
 
@@ -257,11 +268,12 @@ interrupt 15 void TIM_ISR(void)
   PTT_PTT4 = 0;
 
   cur_layer ++;
-  if (cur_layer == 8) {
+  if(cur_layer == 8)
+  {
     cur_layer = 0; // reset to bottom layer
   } 
-
 }      
+
 
 /*
  ***********************************************************************                       
@@ -271,9 +283,8 @@ interrupt 15 void TIM_ISR(void)
 
 interrupt 20 void SCI_ISR(void)
 {
-
-
 }
+
 
 /*
  ***********************************************************************
@@ -291,81 +302,100 @@ void shiftout(char x)
   // wait for 30 cycles for SPI data to shift out 
   while (!SPISR_SPTEF);
   SPIDR = x;
-  asm {
-    nop //1
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop //15
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop
-      nop //30
-  }
 
-  return;
+  asm
+  {
+    nop //1
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop //15
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop //30
+  }
 } 
 
 
-void effect_pick(void) {
-  if (effect_count == 0) {
+void effect_pick(void)
+{
+  if(effect_count == 0)
+  {
     effect_rain(10 * DELAY_MULTIPLIER);
-  } else if (effect_count == 1) { 
+  }
+  else if(effect_count == 1)
+  { 
     effect_capacitor(10 * DELAY_MULTIPLIER);
-  } else if (effect_count == 2) { 
-    for (i=0;i<8 && effect_count == 2;i++){
+  }
+  else if(effect_count == 2)
+  { 
+    for(i=0;i<8 && effect_count == 2;i++)
+    {
       effect_box_shrink_grow (1, i%4, i & 0x04, 10 * DELAY_MULTIPLIER);
     }
-  } else if (effect_count == 3) {
+  }
+  else if(effect_count == 3)
+  {
     effect_box_center(10 * DELAY_MULTIPLIER,0);
     effect_box_center(10 * DELAY_MULTIPLIER,1);
     effect_box_center(10 * DELAY_MULTIPLIER,0);
     effect_box_center(10 * DELAY_MULTIPLIER,1);
-  } else if (effect_count == 4) {
+  }
+  else if(effect_count == 4)
+  {
     effect_path_text (12 * DELAY_MULTIPLIER, "MERRY XMAS");
-  } else if (effect_count == 5) {
-    if (effect_count == 5) {
+  }
+  else if(effect_count == 5)
+  {
+    if(effect_count == 5)
+    {
       effect_holupp('z',1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
-    if (effect_count == 5) {
+    if(effect_count == 5)
+    {
       effect_holupp('z',-1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
-    if (effect_count == 5) {
+    if(effect_count == 5)
+    {
       effect_holupp('x',1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
-    if (effect_count == 5) {
+    if(effect_count == 5)
+    {
       effect_holupp('x',-1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
-    if (effect_count == 5) {
+    if(effect_count == 5)
+    {
       effect_holupp('y',1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
-    if (effect_count == 5) {
+    if(effect_count == 5)
+    {
       effect_holupp('y',-1,50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
@@ -373,10 +403,11 @@ void effect_pick(void) {
 }
 
 
-// NEWLY ADDED
+// Sets the delay constant so that there is a dynamic delay
+// DELAY_MULTIPLIER is used (in increments) to set delays for various effects
+// DELAY_MULTIPLIER is determined from ATDDR1H (Pin 6 on the Microcontroller)
 void setDelayConstant(void)
 {
-
   ATDCTL5 = 0x00;
 
   DELAY_MULTIPLIER = ATDDR1H / 5;
