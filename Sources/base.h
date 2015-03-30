@@ -4,7 +4,7 @@
 #include "cube.h"
 #include <string.h>
 
-void fill (unsigned char pattern);
+void fill(unsigned char pattern);
 void delay_ms(unsigned int x);
 void turnOn(int x,int y, int z);
 void turnOff(int x, int y, int z);
@@ -25,11 +25,11 @@ void draw_filledBox(int x1, int x2, int y1, int y2, int z1, int z2);
 void draw_emptyBox(int x1, int x2, int y1, int y2, int z1, int z2);
 void draw_lineBox(int x1, int x2, int y1, int y2, int z1, int z2);
 
-void mirror_x (void);
-void mirror_y (void);
-void mirror_z (void);
+void mirror_x(void);
+void mirror_y(void);
+void mirror_z(void);
 
-char flipbyte (char b);
+char flipbyte(char b);
 
 void moveX(int x, int y, int z, int units);
 void moveY(int x, int y, int z, int units);
