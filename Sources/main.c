@@ -189,7 +189,6 @@ interrupt 7 void RTI_ISR(void)
     effect_count++;
     effect_count %= EFFECT_NUM;
     fill(0x00);
-
   }
   else if(prevpb && !PORTAD0_PTAD7)
   {
@@ -268,6 +267,7 @@ interrupt 15 void TIM_ISR(void)
   PTT_PTT4 = 0;
 
   cur_layer ++;
+
   if(cur_layer == 8)
   {
     cur_layer = 0; // reset to bottom layer
@@ -351,17 +351,17 @@ void effect_pick(void)
   }
   else if(effect_count == 2)
   { 
-    for(i=0;i<8 && effect_count == 2;i++)
+    for(i = 0; i < 8 && effect_count == 2; i++)
     {
-      effect_box_shrink_grow (1, i%4, i & 0x04, 10 * DELAY_MULTIPLIER);
+      effect_box_shrink_grow (1, i % 4, i & 0x04, 10 * DELAY_MULTIPLIER);
     }
   }
   else if(effect_count == 3)
   {
-    effect_box_center(10 * DELAY_MULTIPLIER,0);
-    effect_box_center(10 * DELAY_MULTIPLIER,1);
-    effect_box_center(10 * DELAY_MULTIPLIER,0);
-    effect_box_center(10 * DELAY_MULTIPLIER,1);
+    effect_box_center(10 * DELAY_MULTIPLIER, 0);
+    effect_box_center(10 * DELAY_MULTIPLIER, 1);
+    effect_box_center(10 * DELAY_MULTIPLIER, 0);
+    effect_box_center(10 * DELAY_MULTIPLIER, 1);
   }
   else if(effect_count == 4)
   {
@@ -371,32 +371,32 @@ void effect_pick(void)
   {
     if(effect_count == 5)
     {
-      effect_holupp('z',1,50 * DELAY_MULTIPLIER);
+      effect_holupp('z', 1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
     if(effect_count == 5)
     {
-      effect_holupp('z',-1,50 * DELAY_MULTIPLIER);
+      effect_holupp('z', -1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
     if(effect_count == 5)
     {
-      effect_holupp('x',1,50 * DELAY_MULTIPLIER);
+      effect_holupp('x', 1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
     if(effect_count == 5)
     {
-      effect_holupp('x',-1,50 * DELAY_MULTIPLIER);
+      effect_holupp('x', -1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
     if(effect_count == 5)
     {
-      effect_holupp('y',1,50 * DELAY_MULTIPLIER);
+      effect_holupp('y', 1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
     if(effect_count == 5)
     {
-      effect_holupp('y',-1,50 * DELAY_MULTIPLIER);
+      effect_holupp('y', -1, 50 * DELAY_MULTIPLIER);
       delay_ms(400);
     }
   }
